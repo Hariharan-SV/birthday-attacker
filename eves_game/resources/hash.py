@@ -34,7 +34,7 @@ class HashTable:
     def size(self) -> int:
         return len(self.hash_table.keys())
 
-    def print_data(self):
+    def print_table(self):
         pprint(dict(self.hash_table))
 
 
