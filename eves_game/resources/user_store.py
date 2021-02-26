@@ -1,5 +1,7 @@
-from pprint import pprint
+import pandas as pd
+
 from eves_game.resources.hash import HashTable
+from eves_game.visualizer import calculate_collision_probability
 
 
 class UserStore:
@@ -9,8 +11,14 @@ class UserStore:
         pass
 
     def add(self, user_id, password):
+        print(
+            f"Collision probability for {user_id}: {calculate_collision_probability(self.active_users_count(), self.hash_table.max_size)}")
         if user_id not in self.users:
-            self.users[user_id] = self.hash_table.add(password)
+            result = self.hash_table.add(password)
+            self.users[user_id] = result['hash_value']
+            if result['collision_status']:
+                print(f"Collision status for {user_id}: {result['collision_status']}")
+            return result['collision_status']
         else:
             raise Exception("User already exists !")
 
@@ -28,14 +36,10 @@ class UserStore:
     def active_users_count(self):
         return len(self.users)
 
+    def get_all_usernames(self):
+        return self.users.keys()
+
     def get_all_users(self):
-        pprint(self.users)
-
-
-if __name__=="__main__":
-    table = HashTable(4)
-    store = UserStore(table)
-    store.add("Harry","Programmer")
-    store.add("Krish","KSGPSG")
-    store.get_all_users()
-    store.hash_table.print_table()
+        print("\n-- Users --")
+        print(pd.DataFrame.from_dict(dict(Username=self.users.keys(), HashValue=self.users.values()),
+                                     orient='index').transpose())

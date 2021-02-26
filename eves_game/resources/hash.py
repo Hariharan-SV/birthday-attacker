@@ -1,6 +1,5 @@
 from collections import defaultdict
 from pprint import pprint
-from typing import List
 
 
 class HashTable:
@@ -8,23 +7,25 @@ class HashTable:
         self.hash_table = defaultdict(list)
         self.max_size = size
 
-    def generate_key(self, key: str) -> int:
+    def generate_key(self, key: str, nounce=0) -> int:
+
         temp = [ord(i) for i in key]
-        hash_key = sum(temp) % self.max_size
+        hash_key = (sum(temp) + nounce) % self.max_size
         return hash_key
 
     def add(self, key: str):
-        if key in self.hash_table:
-            raise Exception("Value already allotted to the slot !")
 
         hash_value = self.generate_key(key)
-        self.hash_table[hash_value].append(key)
-        return hash_value
+        collision = False
+        if self.hash_table.get(hash_value):
+            collision = True
+            print(f"Hash Collision occurred for hash value {hash_value}!")
 
-    def get(self, key: str) -> List:
-        if self.generate_key(key) not in self.hash_table:
-            return None
-        return self.hash_table[key]
+        self.hash_table[hash_value].append(key)
+        return dict(hash_value=hash_value, collision_status=collision)
+
+    def get(self, key: str):
+        return self.hash_table.get(key)
 
     def delete(self, key: str) -> None:
         if self.generate_key(key) not in self.hash_table:
@@ -35,6 +36,5 @@ class HashTable:
         return len(self.hash_table.keys())
 
     def print_table(self):
+        print("\n -- Hash Table --")
         pprint(dict(self.hash_table))
-
-
