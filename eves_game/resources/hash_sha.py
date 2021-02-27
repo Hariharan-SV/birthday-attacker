@@ -5,6 +5,7 @@ import hashlib
 class HashTable:
     def __init__(self) -> None:
         self.hash_table = defaultdict(list)
+        self.max_size = 1.1579209e+77
 
     def generate_key(self, key: str) -> int:
         hash_key = hashlib.sha256(key.encode())

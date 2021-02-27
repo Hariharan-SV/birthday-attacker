@@ -10,7 +10,11 @@ class HashTable:
     def generate_key(self, key: str, nounce=0) -> int:
 
         temp = [ord(i) for i in key]
-        hash_key = (sum(temp) + nounce) % self.max_size
+        temp_sum = 0
+        for num in temp:
+            temp_sum += nounce + num
+            nounce += 1
+        hash_key = (temp_sum) % self.max_size
         return hash_key
 
     def add(self, key: str):

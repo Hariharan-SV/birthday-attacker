@@ -46,8 +46,8 @@ def simulate(number_of_users):
 
     print(f"\n\u001b[31mTotal hacked: {total_hacked}\u001b[39m")
 
-    visualize()
+    #visualize()
 
 
 if __name__ == '__main__':
-    simulate(12)
+    simulate(120)
