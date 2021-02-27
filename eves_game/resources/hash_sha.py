@@ -3,11 +3,10 @@ from pprint import pprint
 import hashlib 
 
 class HashTable:
-    def __init__(self, size: int) -> None:
+    def __init__(self) -> None:
         self.hash_table = defaultdict(list)
-        self.max_size = size
 
-    def generate_key(self, key: str, nounce=0) -> int:
+    def generate_key(self, key: str) -> int:
         hash_key = hashlib.sha256(key.encode())
         return hash_key.hexdigest()
 

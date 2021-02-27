@@ -24,8 +24,8 @@ def perform_hacking(store: UserStore, hackers):
                         f"\u001b[32m{user} - status: Hacking Failed :(\u001b[39m")
 
 
-def simulate(table_size, number_of_users):
-    table = HashTable(table_size)
+def simulate(number_of_users):
+    table = HashTable()
     store = UserStore(table)
     hackers = []
     for _ in range(number_of_users):
@@ -50,4 +50,4 @@ def simulate(table_size, number_of_users):
 
 
 if __name__ == '__main__':
-    simulate(10, 12)
+    simulate(12)
